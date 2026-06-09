@@ -100,6 +100,10 @@ const showPassword = ref(false)
 const handleLogin = () => {
   if (email.value && password.value) {
     localStorage.setItem('user', JSON.stringify({ email: email.value }))
+    
+    // 🔁 این خط رو اضافه کن
+    window.dispatchEvent(new Event('storage'))
+    
     alert('✅ ورود موفقیت‌آمیز بود!')
     router.push('/warehouse')
   } else {

@@ -12,12 +12,28 @@ const routes = [
   { path: '/contact', name: 'contact', component: ContactPage },
   { path: '/login', name: 'login', component: LoginPage },
   { path: '/register', name: 'register', component: RegisterPage },
-  { path: '/warehouse', name: 'warehouse', component: WarehousePage },
+  { 
+    path: '/warehouse', 
+    name: 'warehouse', 
+    component: WarehousePage,
+    meta: { requiresAuth: true }
+  }
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes
+})
+
+// محافظت از مسیرها: اگر لاگین نکرده باشه، به صفحه ورود بفرست
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem('user') !== null
+  
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
